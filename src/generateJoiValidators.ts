@@ -30,7 +30,7 @@ export async function generateJoiValidators(dir: string) {
                 startFunction = startFunction + prevStart.length;
                 endFunction = endFunction + prevEnd.length;
             }
-            const regExp = /[a-zA-Z(){}@]+/gm;
+            const regExp = /[a-zA-Z?(){}@]+/gm;
             const matchedArray = row.match(regExp);
             if (matchedArray && matchedArray.length > 0){
                 const [accessModifierTemp, fieldNameTemp, fieldTypeTemp, nullableTemp] = matchedArray;
@@ -46,12 +46,12 @@ export async function generateJoiValidators(dir: string) {
                     const [accessModifier, fieldName, fieldType, nullable] = testFields;
                     if (accessModifiers.includes(accessModifier)
                         && types.includes(fieldType)){
-
+                        const isRequired = fieldName.slice(-1) === "?" ? true : false;
                         const field: Field = {
                             accessModifier: accessModifier,
-                            fieldName,
+                            fieldName: isRequired ? fieldName.substr(0,fieldName.lastIndexOf("?")) : fieldName,
                             fieldType: fieldType.toLowerCase(),
-                            nullable: typeof nullable === "undefined" ? false : true,
+                            nullable: typeof nullable === "undefined" ? isRequired : true,
                         }
                         fields.push(field);
                     }
