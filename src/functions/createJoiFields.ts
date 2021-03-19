@@ -5,7 +5,7 @@ export function createJoiFields(fields:Field[]): string[] {
     try {
         
         return fields.map((field) => {
-            const requiredJoiOption = `${field.nullable ? "" : ".required()"}`;
+            const requiredJoiOption = `${field.nullable ? ".allow(null)" : ".required()"}`;
             switch (field.fieldType) {
                 case 'string':
                 return `${field.fieldName}: Joi.string()${requiredJoiOption}`;

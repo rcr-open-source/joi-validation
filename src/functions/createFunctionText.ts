@@ -13,7 +13,7 @@ export function createFunctionText(typeName: string, fields: string[]): string {
                 ${fields.join(",\n")}
             }
             const schema = Joi.object(joiObject);
-            const { error } = schema.validate(obj);
+            const { error } = schema.validate(obj, {allowUnknown: true, stripUnknown: true});
             if (typeof error !== "undefined"){
                 const message = error.details.map((el) => el.message);
                 throw new Error(message.join(", "));
