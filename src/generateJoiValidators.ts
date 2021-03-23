@@ -30,7 +30,7 @@ export async function generateJoiValidators(dir: string) {
                 startFunction = startFunction + prevStart.length;
                 endFunction = endFunction + prevEnd.length;
             }
-            const regExp = /[a-zA-Z?(){}@]+/gm;
+            const regExp = /[a-zA-Z?_(){}@]+/gm;
             const matchedArray = row.match(regExp);
             if (matchedArray && matchedArray.length > 0){
                 const [accessModifierTemp, fieldNameTemp, fieldTypeTemp, nullableTemp] = matchedArray;

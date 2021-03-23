@@ -19,7 +19,7 @@ export function createFunctionText(typeName: string, fields: string[]): string {
                 throw new Error(message.join(", "));
             }
         } catch (error) {
-            throw new Error(\`Ошибка при валидации объекта: \${(error as Error).message}\`)
+            throw new Error(\`Ошибка при валидации объекта ${typeName}: \${(error as Error).message}\`)
         }
     }`;
     return fileText;
