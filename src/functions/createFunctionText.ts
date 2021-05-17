@@ -1,6 +1,7 @@
 export function createFunctionText(typeName: string, fields: string[]): string {
     const fileText = `
     import * as Joi from "joi";
+    import { ValidationError } from 'joi';
     import { ${typeName} } from "../${typeName}";
     
     /**
@@ -15,11 +16,14 @@ export function createFunctionText(typeName: string, fields: string[]): string {
             const schema = Joi.object(joiObject);
             const { error } = schema.validate(obj, {allowUnknown: true, stripUnknown: true});
             if (typeof error !== "undefined"){
-                const message = error.details.map((el) => el.message);
-                throw new Error(message.join(", "));
+
+                throw new ValidationError(\`Ошибка при валидации объекта ${typeName}: \${error.message}\`, error.details, error._original);
+
             }
         } catch (error) {
-            throw new Error(\`Ошибка при валидации объекта ${typeName}: \${(error as Error).message}\`)
+
+            throw error;
+
         }
     }`;
     return fileText;
